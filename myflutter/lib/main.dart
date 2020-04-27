@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
 void main() {
   runApp(MyApp());
@@ -30,8 +31,21 @@ class MyApp extends StatelessWidget {
       //注册路由表
       routes: {
         "new_page":(context)=>NewRoute(),
+        "tip":(context){
+          return TipRoute(text: ModalRoute.of(context).settings.arguments);
+        },
+        "counter":(context)=>CounterWidget(),
          // 省略其它路由注册信息
         "/":(context)=>MyHomePage(title: 'Flutter Demo Home Page'), //注册首页路由
+      },
+      onGenerateRoute: (RouteSettings settings){
+        return MaterialPageRoute(builder: (context){
+          //注意，onGenerateRoute只会对命名路由生效。
+            String routerName=settings.name;
+          // 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，
+          // 引导用户登录；其它情况则正常打开路由。
+          return null;
+        });
       },
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -116,16 +130,32 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.blue,
               onPressed: (){
                 Navigator.pushNamed(context, "new_page");
-//                //导航到新路由
+//                //导航到新路由 CounterWidget
 //                Navigator.push(context,
 //                    MaterialPageRoute(builder: (context){
 ////                      return NewRoute();
 //                      return RouterTestRoute();
 //                    }));
               },
-            )
+            ),
+            FlatButton(
+              child: Text("open counter route"),
+              textColor: Colors.blue,
+              onPressed: (){
+                Navigator.pushNamed(context, "counter");
+//                //导航到新路由 CounterWidget
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context){
+////                      return NewRoute();
+//                      return RouterTestRoute();
+//                    }));
+              },
+            ),
+            RandomWordsWidget(),
+            Echo(text: "hello world"),
           ],
         ),
+
 
       ),
       floatingActionButton: FloatingActionButton(
@@ -214,3 +244,136 @@ class RouterTestRoute extends StatelessWidget{
   }
 
 }
+class RandomWordsWidget extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    //生成随机字符串
+    final wordPair=new WordPair.random();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Text(wordPair.toString()),
+    );
+  }
+}
+
+class Echo extends StatelessWidget{
+  final String text;
+  final Color backgroundColor;
+  const Echo({
+  Key key,
+    @required this.text,
+    this.backgroundColor:Colors.grey,
+}):super(key:key);
+  @override
+  Widget build(BuildContext context) {
+
+    return Center(
+      child: Container(
+        color: backgroundColor,
+        child: Text(text),
+      ),
+    );
+  }
+}
+
+
+class CounterWidget extends StatefulWidget{
+
+  final int initValue;
+
+  const CounterWidget({Key key,this.initValue:0});
+
+
+
+  @override
+  _CounterWidgetState createState() => new _CounterWidgetState();
+
+}
+
+class _CounterWidgetState extends State<CounterWidget>{
+
+  int _counter;
+
+  @override
+  void initState() {
+    super.initState();
+    //初始化状态
+    _counter=widget.initValue;
+    print("initState");
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    print("build");
+    return Scaffold(
+//      body: Center(
+////        child: FlatButton(
+////          child: Text('$_counter'),
+////          onPressed: ()=>setState((()=>++_counter)),
+////        ),
+////      ),
+      appBar: AppBar(
+        title: Text("子树中获取State对象"),
+      ),
+      body: Center(
+        child: Builder(builder: (context) {
+          return RaisedButton(
+            onPressed: () {
+              // 查找父级最近的Scaffold对应的ScaffoldState对象
+              ScaffoldState _state = context.ancestorStateOfType(
+                  TypeMatcher<ScaffoldState>());
+              //调用ScaffoldState的showSnackBar来弹出SnackBar
+              _state.showSnackBar(
+                SnackBar(
+                  content: Text("我是SnackBar"),
+                ),
+              );
+            },
+            child: Text("显示SnackBar"),
+          );
+        }),
+      ),
+    );
+  }
+
+  @override
+  void didUpdateWidget(CounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("dispose");
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    print("reassemble");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("reassemble");
+  }
+
+
+
+
+
+
+
+
+
+}
+
