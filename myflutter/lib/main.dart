@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'ioswidget.dart';
 
 void main() {
   runApp(MyApp());
@@ -143,16 +144,32 @@ class _MyHomePageState extends State<MyHomePage> {
               textColor: Colors.blue,
               onPressed: (){
                 Navigator.pushNamed(context, "counter");
-//                //导航到新路由 CounterWidget
-//                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context){
-////                      return NewRoute();
-//                      return RouterTestRoute();
-//                    }));
+              },
+            ),
+            FlatButton(
+              child: Text("open ios route"),
+              textColor: Colors.blue,
+              onPressed: (){
+               Navigator.push(context, MaterialPageRoute(
+                 builder: (context){
+                   return CupertinoTestRoute();
+                 }
+               ));
               },
             ),
             RandomWordsWidget(),
             Echo(text: "hello world"),
+            Text("Hello world",
+              style: TextStyle(
+              color: Colors.blue,
+              fontSize: 18.0,
+              height: 1.2,
+              fontFamily: "Courier",
+              background: new Paint()..color=Colors.yellow,
+              decoration:TextDecoration.underline,
+              decorationStyle: TextDecorationStyle.dashed
+          ),
+        ),
           ],
         ),
 
@@ -167,22 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 }
-class NewRoute extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
 
-    var args=ModalRoute.of(context).settings.arguments;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text("NEW Route"),
-        ),
-      body:Center(
-        child: Text("This is new route"),
-      )
-    );
-  }
-
-}
 
 class TipRoute extends StatelessWidget{
 
@@ -366,13 +368,6 @@ class _CounterWidgetState extends State<CounterWidget>{
     super.didChangeDependencies();
     print("reassemble");
   }
-
-
-
-
-
-
-
 
 
 }
