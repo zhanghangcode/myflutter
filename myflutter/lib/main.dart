@@ -3,6 +3,7 @@ import 'ioswidget.dart';
 import 'mylayout.dart';
 import 'lifecontrol.dart';
 import 'routecontrol.dart';
+import 'apphome.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,8 +28,9 @@ class MyApp extends StatelessWidget {
         },
         "counter":(context)=>CounterWidget(),
         "my_layout":(context)=>MyWrap(),
+        "my_apphome":(context)=>MyHomePage(),
          // 省略其它路由注册信息
-        "/":(context)=>MyHomePage(title: 'Flutter Demo Home Page'), //注册首页路由
+        "/":(context)=>ScaffoldRoute(), //注册首页路由
       },
       onGenerateRoute: (RouteSettings settings){
         return MaterialPageRoute(builder: (context){
@@ -43,6 +45,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 
 
