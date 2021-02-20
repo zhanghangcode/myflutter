@@ -5,12 +5,47 @@ import 'lifecontrol.dart';
 import 'routecontrol.dart';
 import 'apphome.dart';
 
-void main() {
-  runApp(MyApp());
-//  runApp(RouterTestRoute());
+// void main() {
+//   runApp(MyApp());
+// //  runApp(RouterTestRoute());
+// }
+
+void main() => runApp(MyApp());
+
+bool say(String msg,String from,int clock){
+  print(msg+"from" +from+"at"+clock?.toString());
+  return true;
 }
 
+bool say2(String msg,{String from,int clock}){
+  print(msg+"from" +from+"at"+clock?.toString());
+  return true;
+}
+
+bool say3(String msg,{@required String from,int clock}){
+  print(msg+"from" +from+"at"+clock?.toString());
+  return true;
+}
+
+bool say4(String msg,[String from,int clock]){
+  print(msg+"from" +from+"at"+clock?.toString());
+  return true;
+}
+
+bool say5(String msg,{String from="empty",int clock=0}){
+  print(msg+"from" +from+"at"+clock?.toString());
+  return true;
+}
+
+
+
+
+
+
+
 class MyApp extends StatelessWidget {
+
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,6 +71,12 @@ class MyApp extends StatelessWidget {
         return MaterialPageRoute(builder: (context){
           //注意，onGenerateRoute只会对命名路由生效。
             String routerName=settings.name;
+
+
+            print(say is Function);
+
+
+            say("msg", "from", 1);
           // 如果访问的路由页需要登录，但当前未登录，则直接返回登录页路由，
           // 引导用户登录；其它情况则正常打开路由。
           return null;
