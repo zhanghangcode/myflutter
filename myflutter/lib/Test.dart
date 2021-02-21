@@ -41,6 +41,28 @@ class MyTestAppState extends State<MyTestApp> {
   }
 }
 
+class MyApp2 extends StatelessWidget{
+
+  final String content;
+  MyApp2(this.content)
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return MaterialApp(
+      title: "Flutter Demo",
+      theme: ThemeData(
+        primarySwatch: Colors.blue
+      ),
+      home: Scaffold(
+        body: Center(
+          child: Text(content),
+        ),
+      ),
+    );
+  }
+
+}
+
 class Point{
   num x,y;
   Point(this.x,this.y);
