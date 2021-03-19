@@ -43,8 +43,9 @@ class MyTestAppState extends State<MyTestApp> {
 
 class MyApp2 extends StatelessWidget{
 
+  MyApp2(this.content);
   final String content;
-  MyApp2(this.content)
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
